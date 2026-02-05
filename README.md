@@ -1,7 +1,3 @@
-<p align="center">
-  <img src="https://wiku.my.id/img/logo/light-icon.svg" alt="Wiku Logo" width="120">
-</p>
-
 <h1 align="center">🛡️ Wiku Radius</h1>
 
 **Open Source RADIUS Server dengan Dashboard Modern**
@@ -12,7 +8,7 @@
 Wiku Radius adalah server RADIUS ringan yang dirancang untuk berjalan di Mini PC, Raspberry Pi, atau server kecil. Cocok untuk ISP kecil, RT/RW Net, Kafe, Hotel, dan Kampus.
 
 <p align="center">
-  <img src="https://wiku.my.id/img/logo/light-icon.svg" alt="Wiku Radius" width="200">
+  <img src="https://wiku.my.id/img/logo/favicon-192x192.png" alt="Wiku Radius" width="200">
 </p>
 
 ## ✨ Fitur
