@@ -8,7 +8,7 @@
 Wiku Radius adalah server RADIUS ringan yang dirancang untuk berjalan di Mini PC, Raspberry Pi, atau server kecil. Cocok untuk ISP kecil, RT/RW Net, Kafe, Hotel, dan Kampus.
 
 <p align="center">
-  <img src="https://wiku.my.id/img/logo/favicon-192x192.png" alt="Wiku Radius" width="200">
+  <img src="https://wiku.my.id/img/logo/favicon-192x192.png" alt="Wiku Radius" width="150">
 </p>
 
 ## ✨ Fitur
