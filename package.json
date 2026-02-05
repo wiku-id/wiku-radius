@@ -1,0 +1,53 @@
+{
+  "name": "wiku-radius",
+  "version": "1.0.0",
+  "description": "Open Source RADIUS Server with Modern Dashboard - By wiku.my.id",
+  "main": "src/index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "nodemon src/index.js",
+    "dashboard": "node src/dashboard.js",
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
+    "setup": "node scripts/setup.js",
+    "migrate": "node scripts/migrate.js"
+  },
+  "keywords": [
+    "radius",
+    "aaa",
+    "authentication",
+    "accounting",
+    "mikrotik",
+    "hotspot",
+    "pppoe",
+    "isp",
+    "rtrwnet",
+    "freeradius-alternative"
+  ],
+  "author": "wiku.my.id",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/wiku-id/wiku-radius.git"
+  },
+  "homepage": "https://wiku.my.id",
+  "dependencies": {
+    "better-sqlite3": "^9.4.3",
+    "cors": "^2.8.5",
+
+    "dotenv": "^16.4.1",
+    "express": "^4.18.2",
+    "js-md4": "^0.3.2",
+    "jsonwebtoken": "^9.0.2",
+    "radius": "^1.1.4",
+    "bcryptjs": "^2.4.3",
+    "winston": "^3.11.0"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "nodemon": "^3.0.3"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
