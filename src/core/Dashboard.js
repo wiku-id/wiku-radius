@@ -128,6 +128,22 @@ class Dashboard {
       }
     });
 
+    // Get single user by ID
+    router.get("/users/:id", this.authMiddleware.bind(this), (req, res) => {
+      try {
+        const { id } = req.params;
+        const user = this.db.getUserById(id);
+
+        if (!user) {
+          return res.status(404).json({ error: "User not found" });
+        }
+
+        res.json({ user });
+      } catch (error) {
+        res.status(500).json({ error: error.message });
+      }
+    });
+
     router.post("/users", this.authMiddleware.bind(this), (req, res) => {
       try {
         const { username, password, profile, expired_at } = req.body;

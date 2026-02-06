@@ -213,6 +213,13 @@ class SQLitePlugin {
   }
 
   /**
+   * Get user by ID
+   */
+  getUserById(id) {
+    return this.db.prepare("SELECT * FROM users WHERE id = ?").get(id);
+  }
+
+  /**
    * Create new user
    */
   createUser(username, password, profile = "default", expiredAt = null) {
@@ -242,7 +249,11 @@ class SQLitePlugin {
     const fields = [];
     const values = [];
 
-    if (data.password !== undefined) {
+    if (data.username !== undefined) {
+      fields.push("username = ?");
+      values.push(data.username);
+    }
+    if (data.password !== undefined && data.password !== "") {
       fields.push("password = ?");
       values.push(data.password);
     }
@@ -256,16 +267,27 @@ class SQLitePlugin {
     }
     if (data.expired_at !== undefined) {
       fields.push("expired_at = ?");
-      values.push(data.expired_at);
+      values.push(data.expired_at || null);
+    }
+
+    if (fields.length === 0) {
+      return { success: true }; // Nothing to update
     }
 
     fields.push("updated_at = CURRENT_TIMESTAMP");
     values.push(id);
 
-    this.db
-      .prepare(`UPDATE users SET ${fields.join(", ")} WHERE id = ?`)
-      .run(...values);
-    return { success: true };
+    try {
+      this.db
+        .prepare(`UPDATE users SET ${fields.join(", ")} WHERE id = ?`)
+        .run(...values);
+      return { success: true };
+    } catch (error) {
+      if (error.code === "SQLITE_CONSTRAINT_UNIQUE") {
+        return { success: false, error: "Username already exists" };
+      }
+      throw error;
+    }
   }
 
   /**

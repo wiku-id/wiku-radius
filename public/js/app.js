@@ -269,6 +269,99 @@ class WikuRadiusApp {
     };
   }
 
+  async editUser(id) {
+    try {
+      // Fetch current user data
+      const data = await this.api(`/users/${id}`);
+      const user = data.user;
+
+      if (!user) {
+        this.showToast("User not found", "error");
+        return;
+      }
+
+      // Format expired_at for date input
+      const expiredAt = user.expired_at
+        ? new Date(user.expired_at).toISOString().split("T")[0]
+        : "";
+
+      this.showModal(
+        "Edit User",
+        `
+        <form id="edit-user-form" class="space-y-4">
+          <div>
+            <label class="block text-sm font-medium text-gray-600 dark:text-gray-300 mb-2">Username</label>
+            <input type="text" name="username" value="${this.escapeHtml(user.username)}" required
+              class="w-full px-4 py-3 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl text-gray-900 dark:text-white placeholder-gray-400 focus:ring-2 focus:ring-primary-500 focus:border-transparent outline-none transition-all">
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-600 dark:text-gray-300 mb-2">New Password <span class="text-gray-400 font-normal">(leave blank to keep current)</span></label>
+            <input type="password" name="password" placeholder="Enter new password"
+              class="w-full px-4 py-3 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl text-gray-900 dark:text-white placeholder-gray-400 focus:ring-2 focus:ring-primary-500 focus:border-transparent outline-none transition-all">
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-600 dark:text-gray-300 mb-2">Profile</label>
+            <input type="text" name="profile" value="${this.escapeHtml(user.profile || "default")}" placeholder="default"
+              class="w-full px-4 py-3 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl text-gray-900 dark:text-white placeholder-gray-400 focus:ring-2 focus:ring-primary-500 focus:border-transparent outline-none transition-all">
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-600 dark:text-gray-300 mb-2">Status</label>
+            <select name="is_active"
+              class="w-full px-4 py-3 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl text-gray-900 dark:text-white focus:ring-2 focus:ring-primary-500 focus:border-transparent outline-none transition-all">
+              <option value="1" ${user.is_active ? "selected" : ""}>Active</option>
+              <option value="0" ${!user.is_active ? "selected" : ""}>Inactive</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-600 dark:text-gray-300 mb-2">Expiry Date (optional)</label>
+            <input type="date" name="expired_at" value="${expiredAt}"
+              class="w-full px-4 py-3 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl text-gray-900 dark:text-white focus:ring-2 focus:ring-primary-500 focus:border-transparent outline-none transition-all">
+          </div>
+          <div class="flex gap-3 pt-4">
+            <button type="button" onclick="app.closeModal()" class="flex-1 px-4 py-3 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-200 font-medium rounded-xl transition-colors">Cancel</button>
+            <button type="submit" class="flex-1 px-4 py-3 bg-gradient-to-r from-primary-500 to-purple-500 hover:from-primary-600 hover:to-purple-600 text-white font-medium rounded-xl transition-all">Save Changes</button>
+          </div>
+        </form>
+      `,
+      );
+
+      document.getElementById("edit-user-form").onsubmit = async (e) => {
+        e.preventDefault();
+        const formData = new FormData(e.target);
+
+        const updateData = {
+          username: formData.get("username"),
+          profile: formData.get("profile") || "default",
+          is_active: formData.get("is_active") === "1",
+          expired_at: formData.get("expired_at") || null,
+        };
+
+        // Only include password if it was changed
+        const newPassword = formData.get("password");
+        if (newPassword && newPassword.trim() !== "") {
+          updateData.password = newPassword;
+        }
+
+        try {
+          await this.api(`/users/${id}`, {
+            method: "PUT",
+            body: JSON.stringify(updateData),
+          });
+
+          this.showToast("User updated successfully", "success");
+          this.closeModal();
+          this.loadUsers();
+          this.loadDashboardData();
+        } catch (error) {
+          this.showToast("Failed to update user", "error");
+        }
+      };
+    } catch (error) {
+      console.error("Error loading user:", error);
+      this.showToast("Failed to load user data", "error");
+    }
+  }
+
   async deleteUser(id) {
     if (!confirm("Are you sure you want to delete this user?")) return;
 

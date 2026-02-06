@@ -9,6 +9,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="icon" href="https://wiku.my.id/img/logo/favicon-192x192.png">
   <script>
     tailwind.config = {
       darkMode: 'class',
@@ -118,8 +119,8 @@
             </button>
           </form>
           
-          <div class="mt-8 text-center text-sm text-gray-400">
-            Powered by <a href="https://wiku.my.id" target="_blank" class="text-primary-500 hover:text-primary-400 transition-colors">wiku.my.id</a>
+          <div data-wiku-protected="attribution-container" class="mt-8 text-center text-sm text-gray-400">
+            Powered by <a data-wiku-protected="attribution" href="https://wiku.my.id" target="_blank" class="text-primary-500 hover:text-primary-400 transition-colors">wiku.my.id</a>
           </div>
         </div>
       </div>
@@ -131,18 +132,8 @@
         <!-- Sidebar -->
         <aside id="sidebar" class="fixed inset-y-0 left-0 z-50 w-64 bg-white dark:bg-gray-900 border-r border-gray-200 dark:border-gray-800 transform -translate-x-full lg:translate-x-0 transition-transform duration-300">
           <div class="flex items-center gap-3 p-5 border-b border-gray-200 dark:border-gray-800">
-            <svg viewBox="0 0 100 100" class="w-9 h-9">
-              <defs>
-                <linearGradient id="logo-gradient-2" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" style="stop-color:#6366f1"/>
-                  <stop offset="100%" style="stop-color:#a855f7"/>
-                </linearGradient>
-              </defs>
-              <circle cx="50" cy="50" r="45" fill="none" stroke="url(#logo-gradient-2)" stroke-width="4"/>
-              <circle cx="50" cy="50" r="30" fill="none" stroke="url(#logo-gradient-2)" stroke-width="3"/>
-              <circle cx="50" cy="50" r="15" fill="url(#logo-gradient-2)"/>
-            </svg>
-            <span class="text-lg font-bold bg-gradient-to-r from-primary-500 to-purple-500 bg-clip-text text-transparent">Wiku Radius</span>
+            <img data-wiku-protected="logo" src="https://wiku.my.id/img/logo/favicon-192x192.png" alt="Wiku Logo" class="w-8 h-8">
+            <span data-wiku-protected="brand" class="text-lg font-bold text-gray-700 dark:text-white">Wiku Radius</span>
           </div>
           
           <nav class="p-4 space-y-1">
@@ -471,6 +462,8 @@
   </div>
 
   <script src="js/app.js"></script>
+  <!-- Branding Protection - Protects logo and wiku.my.id attribution -->
+  <script src="js/branding-protection.js"></script>
   <script>
     // Theme Toggle
     function toggleTheme() {
